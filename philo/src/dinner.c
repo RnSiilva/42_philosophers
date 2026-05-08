@@ -6,7 +6,7 @@
 /*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 02:07:12 by resilva           #+#    #+#             */
-/*   Updated: 2024/09/25 08:46:13 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/29 17:52:41 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	is_dead_or_full(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->eat_padlock);
-	if (ft_gettime() - philo->last_eat >= (philo->table->time_to_die))
+	if (ft_gettime() - philo->last_eat >= philo->table->time_to_die)
 	{
 		print_action(philo, DIE);
 		is_time_to_finish(philo->table, YES);
@@ -70,11 +70,11 @@ static int	eat(t_table *table, t_philo *philo)
 	print_action(philo, TAKE);
 	print_action(philo, TAKE);
 	print_action(philo, EAT);
+	ft_sleep(table, table->time_to_eat);
 	pthread_mutex_lock(&table->eat_padlock);
 	philo->count_eat++;
 	philo->last_eat = ft_gettime();
 	pthread_mutex_unlock(&table->eat_padlock);
-	ft_sleep(table, table->time_to_eat);
 	pthread_mutex_unlock(&table->fork_padlock[philo->second_fork]);
 	pthread_mutex_unlock(&table->fork_padlock[philo->first_fork]);
 	return (!is_time_to_finish(table, NO));
@@ -96,7 +96,7 @@ void	*start_dinner(void *data)
 	pthread_mutex_lock(&philo->table->finish_padlock);
 	pthread_mutex_unlock(&philo->table->finish_padlock);
 	if (philo->id % 2 == 0)
-		usleep(philo->table->time_to_eat * 1e3);
+		ft_sleep(philo->table, philo->table->time_to_eat);
 	while (42)
 	{
 		if (philo->table->num_of_philo == 1)
@@ -106,7 +106,8 @@ void	*start_dinner(void *data)
 		}
 		if (is_time_to_finish(philo->table, NO))
 			break ;
-		eat(philo->table, philo);
+		if (!eat(philo->table, philo))
+			break ;
 		print_action(philo, SLEEP);
 		ft_sleep(philo->table, philo->table->time_to_sleep);
 		print_action(philo, THINK);

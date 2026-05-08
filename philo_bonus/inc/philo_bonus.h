@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:35:42 by resilva           #+#    #+#             */
-/*   Updated: 2024/09/27 21:52:50 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/29 16:40:01 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ typedef struct s_philo
  * allowed to eat (optional).
  * @param time_start    Timestamp (in milliseconds) when the
  * simulation started.
- * @param check_pid     Process ID for the process checking the
- * state of philosophers.
  * @param philo         Array of philosophers.
  * @param forks         Semaphore for the forks
  * (shared resources between philosophers).
@@ -92,7 +90,6 @@ typedef struct s_table
 	int			time_to_sleep;
 	int			limit_meals;
 	long long	time_start;
-	pid_t		check_pid;
 	t_philo		*philo;
 	sem_t		*forks;
 	sem_t		*print_sem;
@@ -113,15 +110,6 @@ void		start_dinner(t_philo *philo);
  * @param table Pointer to the table structure containing shared data.
  */
 void		finish_dinner(t_table *table);
-
-/**
- * @brief Function to check if all philosophers have eaten enough meals.
- *
- * @param data Pointer to the table structure passed as a void
- * pointer for use in pthreads.
- * @return Always returns NULL after execution.
- */
-void		*check_full(void *data);
 
 /**
  * @brief Prints a philosopher's action (eating, sleeping, etc.)

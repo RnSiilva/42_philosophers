@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 18:37:19 by resilva           #+#    #+#             */
-/*   Updated: 2024/09/27 21:53:31 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/29 16:39:17 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	init_philosophers(t_table *table)
 	table->philo = NULL;
 	table->philo = safe_malloc(table, sizeof(t_philo) * table->num_of_philo);
 	table->time_start = ft_gettime();
-	table->check_pid = -1;
 	i = -1;
 	while (++i < table->num_of_philo)
 	{
